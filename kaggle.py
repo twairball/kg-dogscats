@@ -41,7 +41,7 @@ def submit(preds, test_batches, filepath):
 
 
 def push_to_kaggle(filepath):
-    command = "kg submit -c the-nature-conservancy-fisheries-monitoring " + filepath
+    command = "kg submit -c dogs-vs-cats-redux-kernels-edition " + filepath
     os.system(command)
 
 if __name__ == "__main__":
