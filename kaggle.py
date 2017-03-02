@@ -15,29 +15,28 @@ def classnames():
     return ['cats', 'dogs']
 
 def submit(preds, test_batches, filepath):
+
     def do_clip(arr, mx): 
         return np.clip(arr, (1-mx)/9, mx)
-
-    def img_names(filenames):
-        df = pd.DataFrame(filenames, columns=['image'])
-        df.loc[:, 'image'] = df['image'].str.replace('unknown/', '')
-        return df
-
-    def preprocess(subm):
-        # make classes
-        classes = classnames()
-        submission = pd.DataFrame(subm, columns=classes)
-        return submission
     
-    # make submission dataframe
-    df_img_names = img_names(test_batches.filenames)
-    subm = do_clip(preds,0.93)
-    submission = preprocess(subm)
-    submission = pd.concat([df_img_names, submission], axis=1)
+    def img_names(filenames):
+        return np.array([int(f[8:f.find('.')]) for f in filenames])
 
-    print(submission.head())
-    print("saving to csv: " + filepath)
-    submission.to_csv(filepath, index=False, compression='gzip')
+    #Grab the dog prediction column
+    isdog = preds[:,1]
+    print("Raw Predictions: " + str(isdog[:5]))
+    print("Mid Predictions: " + str(isdog[(isdog < .6) & (isdog > .4)]))
+    print("Edge Predictions: " + str(isdog[(isdog == 1) | (isdog == 0)]))
+
+    # clip
+    isdog = do_clip(isdog, 0.97)
+
+    #Extract imageIds from the filenames in our test/unknown directory 
+    ids = img_names(test_batches.filenames)
+    subm = np.stack([ids,isdog], axis=1)
+
+    # write to csv
+    np.savetxt(filepath, subm, fmt='%d,%.5f', header='id,label', comments='')
 
 
 def push_to_kaggle(filepath):
