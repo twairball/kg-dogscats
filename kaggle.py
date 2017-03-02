@@ -36,6 +36,7 @@ def submit(preds, test_batches, filepath):
     subm = np.stack([ids,isdog], axis=1)
 
     # write to csv
+    print("[submit] saving to %s" % filepath)
     np.savetxt(filepath, subm, fmt='%d,%.5f', header='id,label', comments='')
 
 
