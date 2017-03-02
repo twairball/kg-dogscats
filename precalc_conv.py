@@ -236,10 +236,10 @@ def run_submit():
     print("======= making submission ========")
     preds = load_array('data/results/preds.h5/')
     test_batch = get_batches('data/test/')
-    submit(preds, test_batch, 'submits/base_subm.csv')
+    submit(preds, test_batch, 'submits/base_subm.gz')
 
     print("======= pushing to kaggle ========")
-    push_to_kaggle('submits/base_subm.csv')
+    push_to_kaggle('submits/base_subm.gz')
 
 
 if __name__ == "__main__":
