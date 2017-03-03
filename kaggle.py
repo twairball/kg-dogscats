@@ -25,7 +25,7 @@ def submit(preds, test_batches, filepath):
 
     def preprocess(preds):
         isdog = preds[:,1]
-        subm = do_clip(isdog, 0.97)
+        subm = do_clip(isdog, 0.98)
         return pd.DataFrame(subm, columns=['label'])
         
     ids = img_names(filenames)

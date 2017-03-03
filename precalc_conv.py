@@ -159,7 +159,7 @@ class DenseModel():
     
     def dense_model(self, layers):
         model = Sequential(layers)
-        optimizer = Adam(lr=0.0005)
+        optimizer = Adam(lr=0.0003)
         # optimizer = RMSprop(lr=0.00001, rho=0.7)
         model.compile(optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
         return model
